@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Page 3 - For You 🖤</title>
+<style>
+body {background:#fff; font-family:"Segoe UI",sans-serif; text-align:center; margin:0; padding:0; color:#000;}
+.page-section {margin:50px auto; padding:30px; max-width:600px; border-radius:20px; background:rgba(0,0,0,0.03); box-shadow:0 0 10px rgba(0,0,0,0.08);}
+h1{margin-top:0; font-size:42px; text-shadow:0 0 5px #555,0 0 10px #999;}
+p{font-size:18px; margin:10px 0; transition:0.3s;}
+p:hover{transform:scale(1.02); text-shadow:0 0 5px #aaa;}
+button{background:#000; color:#fff; border-radius:25px; padding:12px 25px; font-size:16px; border:none; cursor:pointer; margin:10px; transition:0.3s;}
+button:hover{background:#333;}
+#showParaBtn, #surpriseBtn, #backBtn{
+    background:#000; color:#fff; border-radius:25px; padding:18px 30px; font-size:20px; border:none; cursor:pointer; margin:10px; transition:0.3s;
+}
+#showParaBtn:hover, #surpriseBtn:hover, #backBtn:hover{transform:scale(1.05); background:#333;}
+.separator{width:50px; height:2px; background:#000; margin:20px auto; opacity:0.2; border-radius:2px;}
+.fade-text{opacity:0; transform:translateY(10px); animation:fadeUp 1s forwards;}
+@keyframes fadeUp {to{opacity:1; transform:translateY(0);} }
+.symbol {position:absolute; font-size:20px; animation:floatDown 4s linear forwards;}
+@keyframes floatDown {0%{transform:translateY(0);}100%{transform:translateY(100vh);} }
+.watermark{position:fixed; bottom:10px; right:10px; opacity:0.5; font-size:14px;}
+.popup {position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); background: rgba(0,0,0,0.85); color:#fff; padding:30px; border-radius:20px; box-shadow:0 0 25px rgba(255,0,100,0.6); text-align:center; transition:0.5s; opacity:0; z-index:1000; max-width:350px;}
+.popup.show {transform:translate(-50%,-50%) scale(1); opacity:1; animation: popupGlow 1.5s infinite alternate;}
+@keyframes popupGlow {0% { box-shadow: 0 0 15px rgba(255,0,100,0.6), 0 0 30px rgba(255,0,100,0.4);} 100% { box-shadow: 0 0 30px rgba(255,0,100,0.8), 0 0 50px rgba(255,0,100,0.5);} }
+</style>
+</head>
+<body>
+
+<div class="page-section">
+<h1>Some Love & Encouragemment 𐙚</h1>
+
+<!-- Paragraphs hidden initially -->
+<p id="para1" class="fade-text" style="display:none;">Just a little reminder, you're amazing HOHOHO. No matter what happens today, remember you've got this, and I've got you!</p>
+<p id="para2" class="fade-text" style="display:none;">Sending you all my love and positive vibe!</p>
+<p id="para3" class="fade-text" style="display:none;">♡</p>
+<p id="para4" class="fade-text" style="display:none;">See you soon babyy. I miss you so muchhh. TAK SABAR NAK JUMPAA NAK PELUKK NAK CIUMM</p>
+
+<div class="separator"></div>
+
+<!-- Buttons -->
+<button id="showParaBtn">Sini dulu baby hehe</button>
+<button id="surpriseBtn" style="display:none;">JANJII LASTT</button>
+<button id="backBtn" style="display:none;" onclick="goBack()">←️ Back Page</button>
+</div>
+
+<div class="watermark">Created by fiennzz️</div>
+
+<div id="popup" class="popup">
+TAKE CARE SAYANG<br>Iloveyou so much. See you!!!<br>
+<button id="closePopupBtn">Close</button>
+</div>
+
+<audio id="music" loop>
+  <source src="brooklyn.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Resume music
+const music = document.getElementById("music");
+const savedTime = localStorage.getItem("musicTime");
+const wasPlaying = localStorage.getItem("musicPlaying") === "true";
+if(savedTime) music.currentTime = savedTime;
+if(wasPlaying) window.addEventListener("load",()=>{ music.play().catch(()=>console.log("User interaction needed")); });
+
+// Floating hearts
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.innerHTML="❤";
+    heart.className="symbol";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.color="#000";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+}
+setInterval(createHeart,400);
+
+// Back Page
+function goBack(){
+    localStorage.setItem("musicTime", music.currentTime);
+    window.location.href="motivation.html";
+}
+
+// Paragraph reveal logic
+const paragraphs = [
+    document.getElementById("para1"),
+    document.getElementById("para2"),
+    document.getElementById("para3"),
+    document.getElementById("para4")
+];
+
+const buttonTexts = ["Sini dulu baby hehe","Sini lagi baby","Lagi byy","Hehe lastt"];
+let currentIndex = 0;
+
+const showParaBtn = document.getElementById("showParaBtn");
+const surpriseBtn = document.getElementById("surpriseBtn");
+const backBtn = document.getElementById("backBtn");
+const popup = document.getElementById("popup");
+const closePopupBtn = document.getElementById("closePopupBtn");
+
+showParaBtn.addEventListener("click", ()=>{
+    if(currentIndex < paragraphs.length){
+        // Show current paragraph
+        paragraphs[currentIndex].style.display = "block";
+        paragraphs[currentIndex].style.animation = "fadeUp 1s forwards";
+
+        currentIndex++;
+
+        // Update button text if there are more paragraphs left
+        if(currentIndex < buttonTexts.length){
+            showParaBtn.textContent = buttonTexts[currentIndex];
+        } else {
+            // Last paragraph reached, hide showParaBtn, show surpriseBtn
+            showParaBtn.style.display = "none";
+            surpriseBtn.style.display = "inline-block";
+        }
+    }
+});
+
+// Show popup when surprise button clicked
+surpriseBtn.addEventListener("click", ()=>{
+    popup.classList.add("show");
+    surpriseBtn.style.display = "none";
+});
+
+// When popup closed, show Back Page button
+closePopupBtn.addEventListener("click", ()=>{
+    popup.classList.remove("show");
+    backBtn.style.display = "inline-block";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Page 2 - For You 🖤</title>
+<style>
+body {background:#fff; font-family:"Segoe UI",sans-serif; text-align:center; margin:0; padding:0; color:#000;}
+.page-section {margin:50px auto; padding:30px; max-width:600px; border-radius:20px; background:rgba(0,0,0,0.03); box-shadow:0 0 10px rgba(0,0,0,0.08);}
+h1{margin-top:0; font-size:42px; text-shadow:0 0 5px #555,0 0 10px #999;}
+p{font-size:18px; margin:10px 0; transition:0.3s;}
+p:hover{transform:scale(1.02); text-shadow:0 0 5px #aaa;}
+button{background:#000; color:#fff; border-radius:25px; padding:12px 25px; font-size:16px; border:none; cursor:pointer; margin:10px; transition:0.3s;}
+button:hover{background:#333;}
+.separator{width:50px; height:2px; background:#000; margin:20px auto; opacity:0.2; border-radius:2px;}
+.fade-text{opacity:0; transform:translateY(10px); animation:fadeUp 1s forwards; animation-delay:var(--delay);}
+@keyframes fadeUp {to{opacity:1; transform:translateY(0);} }
+.symbol {position:absolute; font-size:20px; animation:floatDown 4s linear forwards;}
+@keyframes floatDown {0%{transform:translateY(0);}100%{transform:translateY(100vh);} }
+.watermark{position:fixed; bottom:10px; right:10px; opacity:0.5; font-size:14px;}
+</style>
+</head>
+<body>
+
+<div class="page-section">
+<h1>A Little Boost Just For You 🎕</h1>
+
+<p id="para1" class="fade-text" style="--delay:0s; opacity:1; transform:translateY(0);">
+Hey, I know you've been going through a lot lately. I can tell by the way
+you act. You get easily overwhelmed and emotional. Sayang faham semua tu.
+I don't know everything you're dealing with. Maybe ada yang sayang tahu apa 
+yang baby pernah cakap. Tapi apa yang sayang tak tahu, sayang harap baby kuat
+untuk hadap. Sayang tahu n percaya yang baby kuat.
+</p>
+<p class="fade-text" style="--delay:0.5s;">♡</p>
+
+<p id="para2" class="fade-text" style="--delay:0s; display:none;">
+Sayang nak baby tahu yang sayang sentiasa ada dengan baby.
+If you need me, just reach out. I'll always be supporting you!
+</p>
+
+<div class="separator"></div>
+
+<button onclick="goBack()">←️ Back Page</button>
+<button id="showParaBtn">Done? Click sini dulu by!</button>
+<button id="nextBtn" style="display:none;" onclick="goNext()">Next Page →️</button>
+
+</div>
+
+<div class="watermark">Created by fiennzz️</div>
+
+<audio id="music" loop>
+  <source src="brooklyn.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Resume music
+const music = document.getElementById("music");
+const savedTime = localStorage.getItem("musicTime");
+if(savedTime) music.currentTime = savedTime;
+window.addEventListener("load",()=>{ music.play().catch(()=>console.log("User interaction needed")); });
+
+// Back / Next
+function goBack(){
+    localStorage.setItem("musicTime", music.currentTime);
+    window.location.href="main.html";
+}
+function goNext(){
+    localStorage.setItem("musicTime", music.currentTime);
+    window.location.href="Letter.html";
+}
+
+// Reveal paragraph 2 then show Next button
+const showParaBtn = document.getElementById("showParaBtn");
+const para2 = document.getElementById("para2");
+const nextBtn = document.getElementById("nextBtn");
+
+showParaBtn.addEventListener("click", () => {
+    para2.style.display = "block";
+    para2.style.animation = "fadeUp 1s forwards";
+    showParaBtn.style.display = "none";
+    nextBtn.style.display = "inline-block";
+});
+
+// Floating hearts
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.innerHTML="❤";
+    heart.className="symbol";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.color="#000";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+}
+setInterval(createHeart,400);
+</script>
+</body>
+</html>
